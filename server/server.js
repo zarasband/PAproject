@@ -1,3 +1,6 @@
-require('./config/config');
+//----config
+process.env.NODE_CONFIG_DIR = __dirname + '/config';
 
-const mongoose = require('./db/mongoose');
+const config = require('config');
+
+console.log(`*** ${String(config.get('Level')).toUpperCase()} ***`);
