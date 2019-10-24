@@ -8,10 +8,10 @@
         "start": "node server/server.js"
     },
     "engines": {
-        "node": "10.16.3"
+        "node": "12.9.1"
     },
     "keywords": [],
-    "author": "",
+    "author": "ZARAS",
     "license": "ISC",
     "dependencies": {
         "config": "^3.2.3",
