@@ -38,7 +38,7 @@ app.listen(config.get('PORT'), () => {
 //     password: '12312323'
 // });
 
-newUser.save().then((user) => {
-    console.log('User has been saved to database', user);
-});
+// newUser.save().then((user) => {
+//     console.log('User has been saved to database', user);
+// });
 //comment
