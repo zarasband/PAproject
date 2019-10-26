@@ -32,6 +32,8 @@ app.post('/api/users', (req, res) => {
 app.listen(config.get('PORT'), () => {
     console.log(`Server is running on port ${config.get('PORT')}`);
 });
+
+
 // let newUser = new User({
 //     fullname: 'farshad zarasvand',
 //     email: 'sdhd@jskjds.com',
