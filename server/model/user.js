@@ -65,8 +65,8 @@ UserSchema.static.findByCredentials = function(email, password) {
                 }
             });
         });
-    })
-};
+    });
+}
 
 UserSchema.statics.findByCredentials = function(email, password) {
     let User = this;
