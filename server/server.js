@@ -28,7 +28,11 @@ app.post('/api/users', (req, res) => {
     });
 
 });
+app.post('/api/login', (req, res) => {
+    const body = _.pick(req.body, ['email', 'password']);
 
+    User.findByCredentials(body.email, body.password);
+});
 app.listen(config.get('PORT'), () => {
     console.log(`Server is running on port ${config.get('PORT')}`);
 });
