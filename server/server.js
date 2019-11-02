@@ -5,54 +5,53 @@ const config = require('config');
 const express = require('express');
 const _ = require('lodash');
 
-const { User } = require('./model/user');
+const {
+    User
+} = require('./model/user');
 
 console.log(`*** ${String(config.get('Level')).toUpperCase()} ***`);
 
 const app = express();
 app.use(express.json());
 
-app.post('/api/users', (req, res) => {
-    const body = _.pick(req.body, ['fullname', 'email', 'password']);
-
-    console.log(body);
-
-    let user = new User(body);
-
-    user.save().then((user) => {
+app.post('/api/users', async(req, res) => {
+    try {
+        const body = _.pick(req.body, ['fullname', 'email', 'password']);
+        let user = new User(body);
+        await user.save();
         res.status(200).send(user);
-    }, (err) => {
+    } catch (error) {
         res.status(400).json({
-            Error: `Something went wrong. ${err}`
+            Error: `Something went wrong. ${error}`
         });
-    });
-
+    }
 });
-app.post('/api/login', (req, res) => {
-    const body = _.pick(req.body, ['email', 'password']);
+app.post('/api/login', async(req, res) => {
+            try {
+                const body = _.pick(req.body, ['email', 'password']);
 
-    User.findByCredentials(body.email, body.password).then((user) => {
-        user.generateAuthToken().then((token) => {
-            res.header('x-auth', token).status(200).send(token);
-        }, (err) => {
-            res.status(400).json({
-                Error: `something went wrong.  ${err}`
+                let user = await User.findByCredentials(body.email, body.password);
+                let token = await user.generateAuthToken();
+                res.header('x-auth', token)
+                    .status(200)
+                    .send(token);
+
+            } catch (error) {
+                res.status(400).json({
+                    Error: `something went wrong.  ${error}`
+                });
+            }
+            app.listen(config.get('PORT'), () => {
+                console.log(`Server is running on port ${config.get('PORT')}`);
             });
-        });
-    });
-});
-app.listen(config.get('PORT'), () => {
-    console.log(`Server is running on port ${config.get('PORT')}`);
-});
 
+            // let newUser = new User({
+            //     fullname: 'farshad zarasvand',
+            //     email: 'sdhd@jskjds.com',
+            //     password: '12312323'
+            // });
 
-// let newUser = new User({
-//     fullname: 'farshad zarasvand',
-//     email: 'sdhd@jskjds.com',
-//     password: '12312323'
-// });
-
-// newUser.save().then((user) => {
-//     console.log('User has been saved to database', user);
-// });
-//comment
+            // newUser.save().then((user) => {
+            //     console.log('User has been saved to database', user);
+            // });
+            //comment
