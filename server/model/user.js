@@ -90,6 +90,22 @@ UserSchema.statics.findByCredentials = function(email, password) {
     });
 }
 
+UserSchema.static.findByToken = function(token) {
+    let User = this;
+    let decoded;
+    try {
+        decoded = jwt.verify(token, config.get('JWT_SECRET'));
+    } catch (error) {
+        return Promise.reject();
+    }
+    return User.findOne({
+        _id: decoded._id,
+        'tokens.token': token,
+        'tokens.access': 'auth'
+    });
+}
+
+
 UserSchema.methods.generateAuthToken = function() {
     let user = this;
     let access = 'auth';
