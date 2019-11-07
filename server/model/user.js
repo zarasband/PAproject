@@ -90,7 +90,7 @@ UserSchema.statics.findByCredentials = function(email, password) {
     });
 }
 
-UserSchema.static.findByToken = function(token) {
+UserSchema.statics.findByToken = function(token) {
     let User = this;
     let decoded;
     try {
